@@ -1,0 +1,4 @@
+meep-2.0 currently uses django and sqlite3
+run meep-2.0 with the command: python manage.py runserver
+
+still under construction. back end data storage not yet working. 
