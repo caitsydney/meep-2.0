@@ -7,7 +7,6 @@ from django.views.generic.simple import direct_to_template
 
 urlpatterns = patterns('',
 	(r'^$', direct_to_template, {'template': 'base.html'}),
-	(r'create_user/$', direct_to_template, {'template': 'create_user.html'}),
 	(r'login/$', direct_to_template, {'template': 'login.html'}),
 	(r'logout/$', direct_to_template, {'template': 'logout.html'}),
 	(r'login/$', direct_to_template, {'template': 'login.html'}),
@@ -18,8 +17,9 @@ urlpatterns = patterns('',
 	(r'login/$', direct_to_template, {'template': 'login.html'}),
 	(r'delete_message/$', direct_to_template, {'template': 'delete_message.html'}),
 	(r'delete_all_messages/$', direct_to_template, {'template': 'delete_all_messages.html'}),
-	(r'add_thread/$', direct_to_template, {'template': 'add_thread.html'}),
-	(r'add_user_action/$', 'meep.views.add_user_action')
+	#(r'add_thread/$', direct_to_template, {'template': 'add_thread.html'}),
+	(r'add_thread/$', 'meep.views.add_thread'),
+	(r'add_user/$', 'meep.views.add_user')
 	
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),

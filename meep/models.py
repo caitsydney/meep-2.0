@@ -1,6 +1,7 @@
 import datetime
 from django.utils import timezone
 from django.db import models
+from django import forms
 
 class User(models.Model):
 	name = models.CharField(max_length=30)
@@ -35,11 +36,4 @@ class Thread(models.Model):
 
 	def __unicode__(self):
 		return self.head
-
-
-
-
-
-
-
 

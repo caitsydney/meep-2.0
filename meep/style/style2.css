@@ -13,6 +13,7 @@ html {
 	font-family: Georgia, "Times New Roman", Times, serif;
 	background-color: #004444;
 	color: #FFFFFF;
+	text-transform:lowercase;
 }
 div.gray{
     padding: 1em;
