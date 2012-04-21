@@ -24,12 +24,11 @@ def add_user(request):
 	if request.method == 'POST': #if the form is submitted
 		form = add_user_form(request.POST) 
 		if form.is_valid(): #if validation rules pass
-			#username = Context.POST['username']
-			#password = Context.POST['password']
 			username = form.cleaned_data['username']
 			pw = form.cleaned_data['password']
-			cursor.execute('INSERT INTO User VALUES (' + username + ', ' + pw + ')')
-			return HttpResponseRedirect('index.html')
+			cursor.execute("""insert into meep_users values(0,'c','d');""")
+			#cursor.execute('INSERT INTO users (username,password) VALUES (' + username + ', ' + pw + ')')
+			return HttpResponseRedirect('/index/')
 	else:
 		form = add_user_form()
 		
