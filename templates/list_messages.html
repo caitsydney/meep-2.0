@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}all threads{% endblock title %}
+
+{% block body %}
+
+{% for t in threads %}
+
+	<hr>
+	<h4> {{ t.title }} </h4><p>
+
+	{% for item in thread.get_all_posts() %}
+
+	<hr>
+	<p>{{ item.post }}</p>
+	<p><i>{{ item.author.username }}</i></p>
+	{% if user.username == item.author.username %}
+	<form action='delete_action' method='POST'>
+	<input name='thread_id' type='hidden' value='{{ thread.id }}' />
+	<input name='post_id' type='hidden' value='{{ item.id }}' />
+	<input name='delete' type='submit' value='Delete Message' />
+	</form>
+	{% endif %}
+	<br/>
+	{% endfor %}
+	<form action='reply' method='POST'>
+	<input name='thread_id' type='hidden' value='{{ thread.id }}' />
+	<input name='reply' type='submit' value='Reply to' />
+	</form>
+	<br/><br/>
+{% endfor %}
+{% endblock body %}

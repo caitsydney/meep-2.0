@@ -1,0 +1,25 @@
+{% extends "base2.html" %}
+
+{% block body %}
+
+	<div class='login_cols'>
+		<h3>log in:</h3>
+		<div class='indent'>
+			<form action='.' method='POST'> {% csrf_token %}
+				<div style='margin-bottom:4px;'>
+					username:&nbsp;&nbsp;<input type='text' name='username'><br/>
+				</div>
+					password:&nbsp;&nbsp;<input type='text' name='password'><br/><br/>
+				<input type='submit' value='login'>
+			</form>
+		</div>
+	</div>
+
+	<div class='login_cols'>
+		<h3>not a member?</h3>
+		<div class='indent'>
+			<p>create an account <a href='/create_user'>here</a>
+			</div>
+	</div>
+	
+{% endblock body %}

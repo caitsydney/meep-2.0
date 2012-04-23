@@ -4,11 +4,11 @@ from django.db import models
 from django import forms
 
 class User(models.Model):
-	name = models.CharField(max_length=30)
-	email = models.EmailField()
+	username = models.CharField(max_length=30)
+	password = models.CharField(max_length=30)
 
 	def __unicode__(self):
-		return self.name
+		return self.username
 
 class Message(models.Model):
 	TOPIC_CHOICES = (
