@@ -7,14 +7,16 @@ from meep.views import *
 # admin.autodiscover()
 
 urlpatterns = patterns('meep.views',
-	(r'login/$', 'login'),
-	(r'index/$', 'index'),
 	(r'^$', 'home'),
+	(r'index/$', 'index'),
+	(r'login/$', 'login'),
 	(r'logout/$', 'logout'),
-	(r'add_thread/$', 'add_thread'),
 	(r'add_user/$', 'add_user'),
-	(r'list_threads/$', 'list_threads')
-#	(r'^thread/(?P<thread_id>\d+)/$', 'list_messages'),
+	(r'add_thread/$', 'add_thread'),
+	(r'add_message/$', 'add_message'),
+	(r'list_threads/$', 'list_threads'),
+	(r'list_messages/$', 'list_messages'),
+#	(r'^thread/(?P<thread_id>\d+)/$', 'get_thread'),
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 

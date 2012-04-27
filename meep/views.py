@@ -115,18 +115,41 @@ def list_threads(request):
 	c = Context({"threads": threads})
 	return render_to_response('list_threads.html', c)
 
-def list_messages(request, thread_id):	
+def add_message(request):
+	if not request.user.is_authenticated():
+		return HttpResponseRedirect("/registration/login/")
+	else:
+		print "enter add_message"
+		form = add_message_form(auto_id=True)
+		if request.method == 'POST': #if the form is submitted
+			title = request.POST['title']
+			body = request.POST['message']
+			
+			user_id = request.session['_auth_user_id']
+			if user_id:
+				user = User.objects.get(id=user_id)
+			creator = user
+			
+			created = datetime.datetime.now()
+			thread = Thread(title="default", creator=creator, created=created)
+			thread.save()
+			message = Message(title=title, body=body, creator=creator, created=created, thread=thread)
+			message.save()
+			return HttpResponseRedirect('/list_messages/')
+	return render_to_response('add_message.html', {'form': form,}, RequestContext(request))
+
+def list_messages(request):
 	check_auth(request)
 	print "enter list messages"
-	#messages = Message.objects.order_by("created")
-	#c = Context({"messages": messages})
-	#	return render_to_response('list_messages.html', c)
+	messages = Message.objects.order_by("created")
+	c = Context({"messages": messages})
+	return render_to_response('list_messages.html', c)
 
-	thread = get_object_or_4040(Thread.objects.select_related(), pk=threadid)
-	posts = thread.posts.all().select_related()
-	c = Context({"posts": posts})
-#	return render_to_response('list_messages', c)
-	return render_to_response(thread.get_absolute_url(), c)
+#def list_messages(request, thread_id):	
+#	thread = get_object_or_4040(Thread.objects.select_related(), pk=threadid)
+#	posts = thread.posts.all().select_related()
+#	c = Context({"posts": posts})
+#	return render_to_response(thread.get_absolute_url(), c)
 
 def logout(request):
 	auth_logout(request)
@@ -138,6 +161,11 @@ def check_auth(request):
 
 class add_thread_form(forms.Form):
 	print "enter add_thread_form"
+	title = forms.CharField(max_length=100, label='title')
+	message = forms.CharField(max_length=1000, label='message')
+	
+class add_message_form(forms.Form):
+	print "enter add_message_form"
 	title = forms.CharField(max_length=100, label='title')
 	message = forms.CharField(max_length=1000, label='message')
 
