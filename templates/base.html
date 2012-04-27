@@ -1,9 +1,10 @@
 <html>
 <head>
 	{% block head %}
-	<title>{% block title %}meep{% endblock title %}</title>
-		
-	<link rel="stylesheet" type="text/css" href="/style">
+
+	<title>{% block title %}meep{% endblock title %}</title>	
+	<link rel="stylesheet" type="text/css" href="{% block css_path %}/static/css/style.css{% endblock %}">
+
 	{% endblock %}	
 </head>
 <body>

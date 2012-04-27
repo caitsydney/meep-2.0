@@ -100,15 +100,10 @@ def add_thread(request):
 			creator = user
 			
 			created = datetime.datetime.now()
-			parent = None
-			url = request.build_absolute_url() 
-			
-			message = Message(title=title, body=body, creator=creator, created=created, parent=parent, url=url)
-			message.save()
-			
-			head = message
-			thread = Thread(head=head, title=title, created=created)
+			thread = Thread(title=title, creator=creator, created=created)
 			thread.save()
+			message = Message(title=title, body=body, creator=creator, created=created, thread=thread)
+			message.save()
 			return HttpResponseRedirect('/list_threads/')
 	return render_to_response('add_thread.html', {'form': form,}, RequestContext(request))
 
@@ -120,13 +115,18 @@ def list_threads(request):
 	c = Context({"threads": threads})
 	return render_to_response('list_threads.html', c)
 
-def list_messages(request):	
+def list_messages(request, thread_id):	
 	check_auth(request)
 	print "enter list messages"
 	#messages = Message.objects.order_by("created")
-	c = Context({"messages": messages})
-	
-	return render_to_response('list_messages.html', c)
+	#c = Context({"messages": messages})
+	#	return render_to_response('list_messages.html', c)
+
+	thread = get_object_or_4040(Thread.objects.select_related(), pk=threadid)
+	posts = thread.posts.all().select_related()
+	c = Context({"posts": posts})
+#	return render_to_response('list_messages', c)
+	return render_to_response(thread.get_absolute_url(), c)
 
 def logout(request):
 	auth_logout(request)

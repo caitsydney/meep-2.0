@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}{% endblock title %}
+
+	{% block body %}
+
+		{% for t in threads %}
+
+			<h4>{{ t.title }}</h4>
+			<hr />
+
+		{% endfor %}
+		
+	{% endblock body %}

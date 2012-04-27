@@ -1,0 +1,102 @@
+/* CSS Document 
+
+#00AAAA light blue
+#004444 dark blue
+#FFAA00 yellow
+
+*/
+
+* {margin: 0;
+   padding: 0;}
+   
+html {
+	font-family: Georgia, "Times New Roman", Times, serif;
+	background-color: #004444;
+	color: #FFFFFF;
+	text-transform:lowercase;
+}
+div.gray{
+    padding: 1em;
+    background-color:#787878;
+    margin: 1.5em auto;
+    width: 750px;
+    border: #007777 solid 10px;
+	height:25%;
+}
+a{
+	color:#FFAA00;	
+}
+div.height{
+	height:25%;
+}
+div.black {
+    color:#000000;
+}
+h3 {
+    background-color:#787878;
+    color: #004444;
+	padding:10px;
+    padding-bottom: 10px;
+}
+h1.header {
+	background-color:#007777;
+	color: #004444;
+	padding-bottom: 10px;
+	padding-left:30px;
+	border-bottom: #000000 solid 4px;
+}
+h4 {
+	color:#004444;
+}
+a.header {
+	background-color:#007777;
+	color: #004444;
+	text-decoration: none;
+}
+div.yellow {
+	background-color:#FFAA00;
+}
+div.smallspace {
+	width:200px;
+	padding:5px;
+	background-color:#007777;
+}
+ul {
+	margin-left:10px;
+	list-style-type:none;
+	padding-top:6px;
+	padding-bottom:6px;
+}
+li {
+	display:inline;
+}
+a.menu:link,a.menu:visited {
+	font-weight:bold;
+	color:#FFFFFF;
+	background-color:#FFAA00;
+	text-align:center;
+	padding:6px;
+	text-decoration:none;
+}
+a.menu:hover,a.menu:active {
+	background-color:#ffd580;
+}
+div.indent {
+	padding-left:50px;
+	padding-bottom:20px;
+}
+div.login_cols {
+	width:300px;
+	margin:20px;
+	float:left;
+	padding-right:35;
+}
+div.footer {
+	text-align:center;
+    border-top: #000000 solid 3px;	
+	margin:20px;
+	margin-top:50px;
+	padding-top:10px;
+	background-color:#004444
+	color: #000000;
+}

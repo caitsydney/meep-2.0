@@ -5,10 +5,10 @@
 {% block body %}
 
 	<div class='login_cols'>
-		<h3>new thread:</h3>
+		<h3>reply:</h3>
 	
 		<div class='indent'>
-			<form action='/add_thread/' method='POST'> {% csrf_token %}
+			<form action='/reply/' method='POST'> {% csrf_token %}
 				{% if form.error_dict %}
 				  <p class="error">please correct the errors below.</p>
 				{% endif %}
@@ -22,6 +22,7 @@
 					  {{ form.thread.html_error_list }}
 					{% endif %}
 					<label for="id_message">message:</label> {{ form.message }}
+					<label type="hidden" name="parent_id" value="{{ form.parent }}" id="id_parent" />
 				</div>
 				<input type="submit" value="submit" />
 			</form>

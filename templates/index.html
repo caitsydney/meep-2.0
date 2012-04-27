@@ -1,6 +1,15 @@
 {% extends "base.html" %}
 
 	{% block body %}
-		<h3>welcome</h3>
+	
+		{% if user.is_authenticated %}
+			<h3>welcome, {{user.username}}</h3>
+			
+		{% else %}
+			
+			please log in
+		
+		{% endif %}
+
 	{% endblock body %}
 

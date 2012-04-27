@@ -1,32 +1,22 @@
 {% extends "base.html" %}
 
-{% block title %}all threads{% endblock title %}
+{% block title %}{% endblock title %}
 
-{% block body %}
+	{% block body %}
 
-{% for t in threads %}
+		{% for m in messages %}
 
-	<hr>
-	<h4> {{ t.title }} </h4><p>
+			<h4>{{ m.title }}</h4>
+			<h6 style="text-transform:lowercase;">posted by {{ m.creator }} on {{ m.created }}</h6>
+			
+			{{ m.body }}<br />
+			
+			<hr />
 
-	{% for item in thread.get_all_posts() %}
+		{% endfor %}
+		
+		<form action="/reply/" method="get">
+		  <input type="submit" value="reply" />
+		</form>
 
-	<hr>
-	<p>{{ item.post }}</p>
-	<p><i>{{ item.author.username }}</i></p>
-	{% if user.username == item.author.username %}
-	<form action='delete_action' method='POST'>
-	<input name='thread_id' type='hidden' value='{{ thread.id }}' />
-	<input name='post_id' type='hidden' value='{{ item.id }}' />
-	<input name='delete' type='submit' value='Delete Message' />
-	</form>
-	{% endif %}
-	<br/>
-	{% endfor %}
-	<form action='reply' method='POST'>
-	<input name='thread_id' type='hidden' value='{{ thread.id }}' />
-	<input name='reply' type='submit' value='Reply to' />
-	</form>
-	<br/><br/>
-{% endfor %}
-{% endblock body %}
+	{% endblock body %}
