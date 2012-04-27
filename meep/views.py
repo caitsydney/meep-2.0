@@ -32,7 +32,8 @@ def add_user(request):
 	return render_to_response('registration/add_user.html', {'form': form,}, RequestContext(request))
 
 def index(request):
-	print "enter index"
+	if not request.user.is_authenticated():
+		return HttpResponseRedirect("/registration/login/")	
 	if request.method == "GET":
 		context = {}
 		context.update(csrf(request))
@@ -85,26 +86,24 @@ def profile(request):
 	return HttpResponseRedirect("/index/")
 
 def add_thread(request):
-	if not request.user.is_authenticated():
-		return HttpResponseRedirect("/registration/login/")
-	else:
-		print "enter add_thread"
-		form = add_thread_form(auto_id=True)
-		if request.method == 'POST': #if the form is submitted
-			title = request.POST['title']
-			body = request.POST['message']
-			
-			user_id = request.session['_auth_user_id']
-			if user_id:
-				user = User.objects.get(id=user_id)
-			creator = user
-			
-			created = datetime.datetime.now()
-			thread = Thread(title=title, creator=creator, created=created)
-			thread.save()
-			message = Message(title=title, body=body, creator=creator, created=created, thread=thread)
-			message.save()
-			return HttpResponseRedirect('/list_threads/')
+	check_auth(request)
+	print "enter add_thread"
+	form = add_thread_form(auto_id=True)
+	if request.method == 'POST': #if the form is submitted
+		title = request.POST['title']
+		body = request.POST['message']
+		
+		user_id = request.session['_auth_user_id']
+		if user_id:
+			user = User.objects.get(id=user_id)
+		creator = user
+		
+		created = datetime.datetime.now()
+		thread = Thread(title=title, creator=creator, created=created)
+		thread.save()
+		message = Message(title=title, body=body, creator=creator, created=created, thread=thread)
+		message.save()
+		return HttpResponseRedirect('/list_threads/')
 	return render_to_response('add_thread.html', {'form': form,}, RequestContext(request))
 
 
@@ -117,29 +116,29 @@ def list_threads(request):
 
 def add_message(request):
 	if not request.user.is_authenticated():
-		return HttpResponseRedirect("/registration/login/")
-	else:
-		print "enter add_message"
-		form = add_message_form(auto_id=True)
-		if request.method == 'POST': #if the form is submitted
-			title = request.POST['title']
-			body = request.POST['message']
-			
-			user_id = request.session['_auth_user_id']
-			if user_id:
-				user = User.objects.get(id=user_id)
-			creator = user
-			
-			created = datetime.datetime.now()
-			thread = Thread(title="default", creator=creator, created=created)
-			thread.save()
-			message = Message(title=title, body=body, creator=creator, created=created, thread=thread)
-			message.save()
-			return HttpResponseRedirect('/list_messages/')
+		return HttpResponseRedirect("/registration/login/")	
+	print "enter add_message"
+	form = add_message_form(auto_id=True)
+	if request.method == 'POST': #if the form is submitted
+		title = request.POST['title']
+		body = request.POST['message']
+		
+		user_id = request.session['_auth_user_id']
+		if user_id:
+			user = User.objects.get(id=user_id)
+		creator = user
+		
+		created = datetime.datetime.now()
+		thread = Thread(title="default", creator=creator, created=created)
+		thread.save()
+		message = Message(title=title, body=body, creator=creator, created=created, thread=thread)
+		message.save()
+		return HttpResponseRedirect('/list_messages/')
 	return render_to_response('add_message.html', {'form': form,}, RequestContext(request))
 
 def list_messages(request):
-	check_auth(request)
+	if not request.user.is_authenticated():
+		return HttpResponseRedirect("/registration/login/")	
 	print "enter list messages"
 	messages = Message.objects.order_by("created")
 	c = Context({"messages": messages})
@@ -152,8 +151,8 @@ def list_messages(request):
 #	return render_to_response(thread.get_absolute_url(), c)
 
 def logout(request):
-	auth_logout(request)
-	return redirect('/')
+	auth.logout(request)
+	return  HttpResponseRedirect("/registration/login/")
 
 def check_auth(request):
 	if not request.user.is_authenticated():

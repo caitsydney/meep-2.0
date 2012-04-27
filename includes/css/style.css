@@ -84,12 +84,6 @@ div.indent {
 	padding-left:50px;
 	padding-bottom:20px;
 }
-div.login_cols {
-	width:300px;
-	margin:20px;
-	float:left;
-	padding-right:35;
-}
 div.footer {
 	text-align:center;
     border-top: #000000 solid 3px;	
@@ -98,4 +92,27 @@ div.footer {
 	padding-top:10px;
 	background-color:#004444
 	color: #000000;
+}
+td{
+	padding: .5em .5em;
+}
+tt{
+	padding: 20px 20px;
+}
+div.login_button{
+	padding-left:200px;
+	padding-bottom:20px;
+}
+div.add_user_button{
+	padding-left:250px;
+	padding-top:20px;	
+}
+div.add_message_button{
+	padding-left:200px;
+	padding-top:20px;	
+}
+hr {
+	height: 3px;
+	margin: 10px;
+	background-color: #fff;
 }

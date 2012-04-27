@@ -15,13 +15,12 @@ html {
 	color: #FFFFFF;
 	text-transform:lowercase;
 }
-div.gray{
+#main{
     padding: 1em;
     background-color:#787878;
     margin: 1.5em auto;
     width: 750px;
     border: #007777 solid 10px;
-	height:25%;
 }
 a{
 	color:#FFAA00;	
@@ -90,6 +89,8 @@ div.login_cols {
 	margin:20px;
 	float:left;
 	padding-right:35;
+	width: 19%;
+    
 }
 div.footer {
 	text-align:center;
@@ -99,4 +100,10 @@ div.footer {
 	padding-top:10px;
 	background-color:#004444
 	color: #000000;
+}
+table{
+	width:450px;
+}
+td{
+	padding: 0 0.5em;
 }

@@ -1,5 +1,7 @@
 from django.conf.urls import patterns, include, url
 from meep.views import *
+from django.views.static import *
+from django.conf import settings
 #from django.contrib import admin
 
 # Uncomment the next two lines to enable the admin:
@@ -16,6 +18,7 @@ urlpatterns = patterns('meep.views',
 	(r'add_message/$', 'add_message'),
 	(r'list_threads/$', 'list_threads'),
 	(r'list_messages/$', 'list_messages'),
+	(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),	
 #	(r'^thread/(?P<thread_id>\d+)/$', 'get_thread'),
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),

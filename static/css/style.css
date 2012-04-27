@@ -89,6 +89,8 @@ div.login_cols {
 	margin:20px;
 	float:left;
 	padding-right:35;
+	width: 19%;
+    
 }
 div.footer {
 	text-align:center;
@@ -98,4 +100,13 @@ div.footer {
 	padding-top:10px;
 	background-color:#004444
 	color: #000000;
+}
+table{
+	width:450px;
+}
+th{
+text-align:right;
+}
+td{
+	padding: 0 0.5em;
 }
