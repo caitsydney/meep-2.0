@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404, render_to_response
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
-from django.template import RequestContext
+from django.template import RequestContext, Context
 from meep.models import Message, User, Thread
 from django import forms
 import sqlite3
@@ -10,7 +10,13 @@ from django.core.context_processors import csrf
 from django.contrib import auth
 from django.contrib.auth.forms import UserCreationForm
 
-###working functions##
+def home(request):
+	print "enter home"
+	if not request.user.is_authenticated():
+		return HttpResponseRedirect("/registration/login/")
+	else:
+		return HttpResponseRedirect("/index/")
+
 def add_user(request):
 	print "enter add_user"
 	form = UserCreationForm(request.POST)
@@ -23,10 +29,8 @@ def add_user(request):
 		print "form is not valid"
 		form = UserCreationForm()
 	
-	return render_to_response('add_user.html', {'form': form,}, RequestContext(request))
+	return render_to_response('registration/add_user.html', {'form': form,}, RequestContext(request))
 
-### ACTION ###
-#displays index page#
 def index(request):
 	print "enter index"
 	if request.method == "GET":
@@ -38,8 +42,7 @@ def index(request):
 			user_id = request.session['_auth_user_id']
 			if user_id:
 				user = User.objects.get(id=user_id)
-				username = user.username
-				context['username'] = username
+				context['user'] = user
 		return render_to_response('index.html',context)
 	else:
 		username = request.POST['username']
@@ -55,23 +58,26 @@ def index(request):
 			context.update(csrf(request))
 			return render_to_response('index.html', context)
 
-### ACTION ###
-#login#
 def login(request):
 	print "enter login"
-	username = request.POST['username']
-	print username
-	password = request.POST['password']
-	print password
-	user = auth.authenticate(username=username, password=password)
-	if user is not None and user.is_active:
-		# Correct password, and the user is marked "active"
-		auth.login(request, user)
-		# Redirect to a success page.
-		return HttpResponseRedirect("/index/")
+	if request.method == "POST":
+		username = request.POST['username']
+		print username
+		password = request.POST['password']
+		print password
+		user = auth.authenticate(username=username, password=password)
+		if user is not None and user.is_active:
+			# Correct password, and the user is marked "active"
+			auth.login(request, user)
+			# Redirect to a success page.
+			return HttpResponseRedirect("/index/")
+		else:
+			# Show an error page
+			return HttpResponseRedirect("/login/")
 	else:
-		# Show an error page
-		return HttpResponseRedirect("/login/")	
+		form = login_form()	
+	return render_to_response('accounts/login.html', {'form': form,}, RequestContext(request))
+	
 
 def profile(request):
 	print "enter profile"
@@ -79,43 +85,66 @@ def profile(request):
 	return HttpResponseRedirect("/index/")
 
 def add_thread(request):
-	print "enter add_thread"
-	conn = sqlite3.connect('meep.db')
-	cursor = conn.cursor()
-
-	form = add_thread_form(auto_id=True)
-
-	if request.method == 'POST': #if the form is submitted
-		form = add_thread_form(request.POST) 
-		if form.is_valid(): #if validation rules pass
-			title = form.cleaned_data['title']
-			message = form.cleaned_data['message']
-			topic = form.cleaned_data['topic']
-			date = datetime.now()
-			print date
-			author = HttpResponse(request.COOKIES["username"])
-			print author
-			cmd = """INSERT INTO meep_user (username,password) VALUES(\'""" + title + """\', \'""" + message + """\');"""
-			cursor.execute('INSERT INTO thread VALUES (' + title + ', ' + message + ')')
-			conn.commit()
-			conn.close()
-			return HttpResponseRedirect('/index/')
+	if not request.user.is_authenticated():
+		return HttpResponseRedirect("/registration/login/")
 	else:
-		form = add_user_form()
-		
-	return render_to_response('add_user.html', {'form': form,}, RequestContext(request))
+		print "enter add_thread"
+		form = add_thread_form(auto_id=True)
+		if request.method == 'POST': #if the form is submitted
+			title = request.POST['title']
+			body = request.POST['message']
+			
+			user_id = request.session['_auth_user_id']
+			if user_id:
+				user = User.objects.get(id=user_id)
+			creator = user
+			
+			created = datetime.datetime.now()
+			parent = None
+			url = request.build_absolute_url() 
+			
+			message = Message(title=title, body=body, creator=creator, created=created, parent=parent, url=url)
+			message.save()
+			
+			head = message
+			thread = Thread(head=head, title=title, created=created)
+			thread.save()
+			return HttpResponseRedirect('/list_threads/')
+	return render_to_response('add_thread.html', {'form': form,}, RequestContext(request))
 
-# FORM ###
-#adds a new thread#
+
+def list_threads(request):
+	check_auth(request)
+	print "enter list_thread"
+	threads = Thread.objects.order_by("created")
+	c = Context({"threads": threads})
+	return render_to_response('list_threads.html', c)
+
+def list_messages(request):	
+	check_auth(request)
+	print "enter list messages"
+	#messages = Message.objects.order_by("created")
+	c = Context({"messages": messages})
+	
+	return render_to_response('list_messages.html', c)
+
+def logout(request):
+	auth_logout(request)
+	return redirect('/')
+
+def check_auth(request):
+	if not request.user.is_authenticated():
+		return HttpResponseRedirect("/registration/login/")	
+
 class add_thread_form(forms.Form):
 	print "enter add_thread_form"
 	title = forms.CharField(max_length=100, label='title')
 	message = forms.CharField(max_length=1000, label='message')
 
-
-def logout(request):
-	auth_logout(request)
-	return redirect('/')
+class login_form(forms.Form):
+	print "enter login_form"
+	username = forms.CharField(max_length=20, label='hello')
+	password = forms.CharField(widget=forms.PasswordInput(render_value=False),max_length=20)
 
 class reply_form(forms.Form):
 	print "enter reply_form"
