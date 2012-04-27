@@ -1,26 +1,26 @@
 <html>
 <head>
 	{% block head %}
-	<title>{% block title %}meep{% endblock title %}</title>
-		
-	<link rel="stylesheet" type="text/css" href="static/css/style2">
+
+	<title>{% block title %}shit titus says{% endblock title %}</title>	
+	<link rel="stylesheet" type="text/css" href="{% block css_path %}/static/css/style.css{% endblock %}">
+
 	{% endblock %}	
 </head>
 <body>
 	<h1 class='header'>
 		<a class='header' href='/'>
-			meep
+			shit titus says
 		</a>
 	</h1>
 	
 	<div class="yellow">
 	<ul>
-		<li> <a class='menu' href='/login'>login</a> </li>
-		<li> <a class='menu' href='/add_thread'>new thread</a> </li>
-		<li> <a class='menu' href='/list'>show</a> </li>
-		<li> <a class='menu' href= '/myaccount'>my account</a></li>
-		<li> <a href='/add_user'>new user</a> </li>
-		<li> <a class='menu' href='/logout'>log out</a> </li>
+		<li> <a class='menu' href='accounts/login'>login</a> </li>
+		<li> <a class='menu' href='/add_message'>add shit</a> </li>
+		<li> <a class='menu' href='/list_messages'>read shit</a> </li>
+		<li> <a class='menu' href='registration/add_user'>new user</a> </li>
+		<li> <a class='menu' href='accounts/logout'>logout</a> </li>
 	</ul>
 	</div>
 	

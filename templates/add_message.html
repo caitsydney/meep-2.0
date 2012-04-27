@@ -1,31 +1,40 @@
 {% extends "base.html" %}
 
-{% block title %}add message{% endblock title %}
+{% block title %}add shit{% endblock title %}
 
 {% block body %}
 
-	<div class='login_cols'>
-		<h3>new message:</h3>
+	<div class='main'>
+		<h3>new shit:</h3>
 	
-		<div class='indent'>
+		<table border=0>
 			<form action='/add_message/' method='POST'> {% csrf_token %}
 				{% if form.error_dict %}
 				  <p class="error">please correct the errors below.</p>
 				{% endif %}
-				<div style='margin-bottom:4px;'>					
-					{% if form.title.errors %}
-					  {{ form.thread.html_error_list }}
-					{% endif %}
-					<br />
-					<label for="id_title">title:</label> {{ form.title }} 
-					{% if form.message.errors %}
-					  {{ form.thread.html_error_list }}
-					{% endif %}
-					<label for="id_message">message:</label> {{ form.message }}
-				</div>
-				<input type="submit" value="submit" />
-			</form>
+				{% if form.title.errors %}
+				  {{ form.thread.html_error_list }}
+				{% endif %}
+				{% if form.message.errors %}
+				  {{ form.thread.html_error_list }}
+				{% endif %}
+
+				<tr>					
+					<td><label for="id_title">title:</label></td>
+					<td>{{ form.title }} </td>
+				</tr>
+
+				<tr>
+					<td><label for="id_message">message:</label></td>
+					<td>{{ form.message }}</td>
+				</tr>
+		</table>
+		
+		<div class="add_message_button">
+		<input type="submit" value="submit" />
 		</div>
+		</form>
+		
 	</div>
 	
 {% endblock body %}
