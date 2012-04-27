@@ -1,9 +1,32 @@
 {% extends "base.html" %}
 
+{% block title %}add message{% endblock title %}
+
 {% block body %}
-	<form action='add_thread' method='POST'>
-		title: <input type='text' name='title'><br/>
-		message:<input type='text' name='message'><br/><br/>
-		<input type='submit'>
-	</form>
+
+	<div class='login_cols'>
+		<h3>new message:</h3>
+	
+		<div class='indent'>
+			<form action='/add_message/' method='POST'> {% csrf_token %}
+				{% if form.error_dict %}
+				  <p class="error">please correct the errors below.</p>
+				{% endif %}
+				<div style='margin-bottom:4px;'>					
+					{% if form.title.errors %}
+					  {{ form.thread.html_error_list }}
+					{% endif %}
+					<br />
+					<label for="id_title">title:</label> {{ form.title }} 
+					{% if form.message.errors %}
+					  {{ form.thread.html_error_list }}
+					{% endif %}
+					<label for="id_message">message:</label> {{ form.message }}
+				</div>
+				<input type="submit" value="submit" />
+			</form>
+		</div>
+	</div>
+	
 {% endblock body %}
+

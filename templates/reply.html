@@ -13,11 +13,6 @@
 				  <p class="error">please correct the errors below.</p>
 				{% endif %}
 				<div style='margin-bottom:4px;'>					
-					{% if form.title.errors %}
-					  {{ form.thread.html_error_list }}
-					{% endif %}
-					<br />
-					<label for="id_title">title:</label> {{ form.title }} 
 					{% if form.message.errors %}
 					  {{ form.thread.html_error_list }}
 					{% endif %}
